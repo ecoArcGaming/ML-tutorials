@@ -7,7 +7,7 @@ from sklearn import preprocessing
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn import metrics
 
-
+# change 
 data = pd.read_csv("teleCust1000t.csv")
 # print(data.describe())
 
