@@ -5,8 +5,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 import sklearn.tree as tree
-from sklearn import metrics
-
+from sklearn import metrics 
 
 data = pd.read_csv("drug200.csv")
 # print(data.head)
