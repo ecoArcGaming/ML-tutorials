@@ -3,6 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.datasets import make_blobs
+import pandas as pd
+from sklearn.preprocessing import StandardScaler
+
 
 np.random.seed()
 
@@ -22,7 +25,7 @@ fig = plt.figure(figsize=(6,4))
 colors = plt.cm.Spectral(np.linspace(0,1,len(set(labels))))
 ax = fig.add_subplot(1,1,1)
 
-print(colors)
+# print(colors)
 for (k,col) in zip(range(len([[3, 5],[-1,3],[6,2]])), colors):
     members = (labels == k)
     center = centers[k]
@@ -31,4 +34,29 @@ for (k,col) in zip(range(len([[3, 5],[-1,3],[6,2]])), colors):
 
 ax.set_title('KMeans')
 
+
+df = pd.read_csv('Cust_Segmentation.csv')
+df = df.drop('Address',axis=1)
+# standardizing
+data = np.nan_to_num(df)
+X = data[:,1:]
+X_norm = StandardScaler().fit_transform(X)
+# print(X_norm)
+
+k = 3
+model = KMeans(init = 'k-means++',n_clusters=k, n_init = 20)
+model.fit(X_norm)
+labels = model.labels_
+
+df['Cluster'] = labels # add labels to dataframe
+print(df.head())
+print(df.groupby('Cluster').mean())
+
+plt.figure()
+area = np.pi*(X[:,1])**2
+# print(area)
+plt.scatter(X[:,0],X[:,3],s =area,c=labels, alpha = 0.5)
+plt.xlabel('Age')
+plt.ylabel('Income')
+plt.legend()
 plt.show()
